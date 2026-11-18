@@ -1,0 +1,16 @@
+# MySQL para el laboratorio (puerto 3308 en tu PC para no chocar con otros MySQL)
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: seguridad-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass123
+      MYSQL_DATABASE: seguridad_db
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass123
+    ports:
+      - "3308:3306"
+    volumes:
+      - seguridad_mysql_data:/var/lib/mysql
+volumes:
+  seguridad_mysql_data:
