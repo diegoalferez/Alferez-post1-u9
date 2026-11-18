@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tareas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <h1>Tareas</h1>
+    <div class="error" th:if="${param.error}">El título es obligatorio (máximo 150 caracteres).</div>
+
+    <h2>Buscar por título</h2>
+    <form th:action="@{/tareas}" method="get">
+        <input type="text" name="texto" th:value="${texto}" placeholder="Texto a buscar">
+        <button type="submit">Buscar</button>
+    </form>
+    <p th:if="${texto != null and !#strings.isEmpty(texto)}">
+        Resultados para: <strong th:text="${texto}"></strong>
+        - <a th:href="@{/tareas}">Ver todas</a>
+    </p>
+
+    <table>
+        <thead>
+        <tr><th>ID</th><th>Título</th><th>Descripción</th><th>Propietario</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="t : ${tareas}">
+            <td th:text="${t.id}"></td>
+            <td th:text="${t.titulo}"></td>
+            <td th:text="${t.descripcion}"></td>
+            <td th:text="${t.propietario.nombre}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(tareas)}"><td colspan="4">Sin resultados.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Nueva tarea</h2>
+    <form th:action="@{/tareas}" method="post">
+        <label>Título: <input type="text" name="titulo" maxlength="150" required></label>
+        <label>Descripción: <input type="text" name="descripcion" maxlength="500"></label>
+        <button type="submit">Crear</button>
+    </form>
+
+    <p><a th:href="@{/dashboard}">Volver al dashboard</a></p>
+</main>
+</body>
+</html>
